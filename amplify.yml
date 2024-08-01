@@ -15,27 +15,25 @@ applications:
             - python manage.py collectstatic --noinput
             - echo "Running migrations..."
             - python manage.py migrate
-            - echo "Starting server..."
-            - python manage.py runserver 0.0.0.0:8000
       artifacts:
-        baseDirectory: productionfiles  # Adjust if necessary
+        baseDirectory: productionfiles  # Ensure this directory matches STATIC_ROOT
         files:
           - '**/*'
       cache:
         paths:
           - ~/.cache/pip
-  frontend:
-    phases:
-      preBuild:
-        commands:
+    frontend:
+      phases:
+        preBuild:
+          commands:
           - echo "Frontend pre-build phase"
-      build:
-        commands:
+        build:
+         commands:
           - echo "Frontend build phase"
-    artifacts:
-      baseDirectory: productionfiles  # Adjust if necessary
-      files:
+      artifacts:
+        baseDirectory: productionfiles  # Adjust if necessary
+        files:
         - '**/*'
-    cache:
-      paths:
+      cache:
+        paths:
         - node_modules/**/*
