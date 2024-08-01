@@ -30,9 +30,11 @@ applications:
         preBuild:
           commands:
             - echo "No frontend specific pre-build steps needed"
+            - npm install
         build:
           commands:
             - echo "No frontend specific build steps needed"
+            - npm run build
       artifacts:
         baseDirectory: productionfiles  # Align with backend artifacts
         files:
