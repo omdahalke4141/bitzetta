@@ -22,7 +22,7 @@ applications:
       cache:
         paths:
           - ~/.cache/pip
-  frontend:
+ - frontend:
     phases:
       preBuild:
         commands:
