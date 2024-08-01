@@ -1,6 +1,7 @@
 version: 1
 applications:
-  - backend:
+  - appRoot: /
+    backend:
       phases:
         preBuild:
           commands:
@@ -22,7 +23,8 @@ applications:
       cache:
         paths:
           - ~/.cache/pip
-  - frontend:
+  - appRoot: /  # Add this line
+    frontend:
       phases:
         preBuild:
           commands:
