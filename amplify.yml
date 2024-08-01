@@ -1,6 +1,6 @@
 version: 1
 applications:
-  - appRoot: /
+  - appRoot: bitzetta  # Adjust this path based on your repository structure
     backend:
       phases:
         preBuild:
