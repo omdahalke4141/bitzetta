@@ -18,9 +18,24 @@ applications:
             - echo "Starting server..."
             - python manage.py runserver 0.0.0.0:8000
       artifacts:
-        baseDirectory: productionfiles
+        baseDirectory: productionfiles  # Adjust if necessary
         files:
           - '**/*'
       cache:
         paths:
           - ~/.cache/pip
+  frontend:
+    phases:
+      preBuild:
+        commands:
+          - echo "Frontend pre-build phase"
+      build:
+        commands:
+          - echo "Frontend build phase"
+    artifacts:
+      baseDirectory: productionfiles  # Adjust if necessary
+      files:
+        - '**/*'
+    cache:
+      paths:
+        - node_modules/**/*
