@@ -26,14 +26,14 @@ applications:
       phases:
         preBuild:
           commands:
-          - echo "Frontend pre-build phase"
+            - echo "Frontend pre-build phase"
         build:
           commands:
-          - echo "Frontend build phase"
+            - echo "Frontend build phase"
       artifacts:
-        baseDirectory: productionfiles  # Adjust if necessary
+        baseDirectory: public  # Adjust if necessary
         files:
-        - '**/*'
+          - '**/*'
       cache:
         paths:
-        - node_modules/**/*
+          - node_modules/**/*
