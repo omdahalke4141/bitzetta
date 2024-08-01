@@ -36,7 +36,7 @@ applications:
             - echo "No frontend specific build steps needed"
             - npm run build
       artifacts:
-        baseDirectory: productionfiles  # Align with backend artifacts
+        baseDirectory: build  # Align with backend artifacts
         files:
           - '**/*'
       cache:
