@@ -1,15 +1,16 @@
 version: 1
 applications:
-  - appRoot: toi  # Correct the path to point to the app's root directory
+  - appRoot: .  # Assuming your app's root is the main directory
     backend:
       phases:
         preBuild:
           commands:
             - echo "Setting up the environment and installing dependencies..."
             - python -m venv venv
-            - source ./venv/bin/activate || .\\venv\\Scripts\\activate  # Cross-platform activation
+            # Use cross-platform venv activation to handle different OS environments
+            - source ./venv/bin/activate || .\\venv\\Scripts\\activate
             - pip install --upgrade pip
-            - pip install -r requirements.txt
+            - pip install -r requirements.txt  # Ensure this path is correct
         build:
           commands:
             - echo "Collecting static files..."
@@ -17,13 +18,13 @@ applications:
             - echo "Running migrations..."
             - python manage.py migrate
       artifacts:
-        # Ensure the baseDirectory matches the STATIC_ROOT or other output directory
-        baseDirectory: staticfiles  # Change this if static files are placed elsewhere
+        baseDirectory: productionfiles  # Make sure STATIC_ROOT matches this in settings.py
         files:
           - '**/*'
       cache:
         paths:
-          - ~/.cache/pip
+          - ~/.cache/pip  # Cache pip downloads for faster builds
+
     frontend:
       phases:
         preBuild:
@@ -33,10 +34,9 @@ applications:
           commands:
             - echo "No frontend specific build steps needed"
       artifacts:
-        # If there's a frontend build, specify the correct output directory here
-        baseDirectory: staticfiles  # Adjust if frontend assets are different
+        baseDirectory: productionfiles  # Align with backend artifacts
         files:
           - '**/*'
       cache:
         paths:
-          - node_modules/**/*
+          - node_modules/**/*  # Cache node_modules if applicable
