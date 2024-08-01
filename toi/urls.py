@@ -31,4 +31,5 @@ urlpatterns = [
     path('teacher/', teacher, name='teacher'),
     path('admin_signin/', admin_signin, name='admin_signin'),
     path('apply_course/', apply_course, name='apply_course'),
+     path('', views.home, name='home'),  # Assuming 'home' is your view function for the homepage
 ]
