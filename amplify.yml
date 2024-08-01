@@ -31,7 +31,7 @@ applications:
           commands:
             - echo "Frontend build phase"
       artifacts:
-        baseDirectory: public  # Adjust if necessary
+        baseDirectory: toi  # Adjust if necessary
         files:
           - '**/*'
       cache:
