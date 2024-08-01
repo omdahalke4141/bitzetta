@@ -23,7 +23,6 @@ applications:
       cache:
         paths:
           - ~/.cache/pip
-  - appRoot: /  # Add this line
     frontend:
       phases:
         preBuild:
