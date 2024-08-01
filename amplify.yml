@@ -1,41 +1,42 @@
 version: 1
 applications:
-  - appRoot: bitzetta  # This should be the root directory of your Django app
+  - appRoot: toi  # Correct the path to point to the app's root directory
     backend:
       phases:
         preBuild:
           commands:
-            - echo "Setting up virtual environment and installing dependencies..."
-            - python -m venv venv  # Create a virtual environment
+            - echo "Setting up the environment and installing dependencies..."
+            - python -m venv venv
             - source ./venv/bin/activate || .\\venv\\Scripts\\activate  # Cross-platform activation
             - pip install --upgrade pip
-            - pip install -r requirements.txt  # Install required packages
+            - pip install -r requirements.txt
         build:
           commands:
-            - echo "Running Django collectstatic..."
-            - python manage.py collectstatic --noinput  # Collect static files
-            - echo "Running Django migrations..."
-            - python manage.py migrate  # Apply database migrations
+            - echo "Collecting static files..."
+            - python manage.py collectstatic --noinput
+            - echo "Running migrations..."
+            - python manage.py migrate
       artifacts:
-        baseDirectory: productionfiles  # Check your Django settings for STATIC_ROOT
+        # Ensure the baseDirectory matches the STATIC_ROOT or other output directory
+        baseDirectory: staticfiles  # Change this if static files are placed elsewhere
         files:
-          - '**/*'  # Include all necessary files for deployment
+          - '**/*'
       cache:
         paths:
-          - ~/.cache/pip  # Cache pip installations for faster builds
+          - ~/.cache/pip
     frontend:
       phases:
         preBuild:
           commands:
-            - echo "Frontend pre-build phase - no specific frontend tasks defined"
+            - echo "No frontend specific pre-build steps needed"
         build:
           commands:
-            - echo "Frontend build phase - no specific frontend tasks defined"
+            - echo "No frontend specific build steps needed"
       artifacts:
-        baseDirectory: productionfiles  # Adjust if necessary
+        # If there's a frontend build, specify the correct output directory here
+        baseDirectory: staticfiles  # Adjust if frontend assets are different
         files:
-          - '**/*'  # Include all files in productionfiles directory
+          - '**/*'
       cache:
         paths:
-          # Remove Node.js related cache unless you're using a JavaScript framework
-          # - node_modules/**/*
+          - node_modules/**/*
