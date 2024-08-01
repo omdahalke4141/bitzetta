@@ -1,40 +1,41 @@
 version: 1
 applications:
-  - appRoot: bitzetta  # Adjust this path based on your repository structure
+  - appRoot: bitzetta  # This should be the root directory of your Django app
     backend:
       phases:
         preBuild:
           commands:
-            - echo "Installing dependencies..."
-            - python -m venv venv
-            - source venv/bin/activate
-            - pip install -r requirements.txt
+            - echo "Setting up virtual environment and installing dependencies..."
+            - python -m venv venv  # Create a virtual environment
+            - source ./venv/bin/activate || .\\venv\\Scripts\\activate  # Cross-platform activation
+            - pip install --upgrade pip
+            - pip install -r requirements.txt  # Install required packages
         build:
           commands:
-            - echo "Running collectstatic..."
-            - source venv/bin/activate
-            - python manage.py collectstatic --noinput
-            - echo "Running migrations..."
-            - python manage.py migrate
+            - echo "Running Django collectstatic..."
+            - python manage.py collectstatic --noinput  # Collect static files
+            - echo "Running Django migrations..."
+            - python manage.py migrate  # Apply database migrations
       artifacts:
-        baseDirectory: productionfiles  # Ensure this directory matches STATIC_ROOT
+        baseDirectory: productionfiles  # Check your Django settings for STATIC_ROOT
         files:
-          - '**/*'
+          - '**/*'  # Include all necessary files for deployment
       cache:
         paths:
-          - ~/.cache/pip
+          - ~/.cache/pip  # Cache pip installations for faster builds
     frontend:
       phases:
         preBuild:
           commands:
-            - echo "Frontend pre-build phase"
+            - echo "Frontend pre-build phase - no specific frontend tasks defined"
         build:
           commands:
-            - echo "Frontend build phase"
+            - echo "Frontend build phase - no specific frontend tasks defined"
       artifacts:
         baseDirectory: productionfiles  # Adjust if necessary
         files:
-          - '**/*'
+          - '**/*'  # Include all files in productionfiles directory
       cache:
         paths:
-          - node_modules/**/*
+          # Remove Node.js related cache unless you're using a JavaScript framework
+          # - node_modules/**/*
