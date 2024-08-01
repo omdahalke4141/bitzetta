@@ -22,7 +22,7 @@ applications:
       cache:
         paths:
           - ~/.cache/pip
-    frontend:
+  - frontend:
       phases:
         preBuild:
           commands:
@@ -31,7 +31,7 @@ applications:
           commands:
             - echo "Frontend build phase"
       artifacts:
-        baseDirectory: toi  # Adjust if necessary
+        baseDirectory: productionfiles  # Adjust if necessary
         files:
           - '**/*'
       cache:
