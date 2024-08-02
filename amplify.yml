@@ -18,7 +18,7 @@ applications:
             - echo "Running migrations..."
             - python manage.py migrate
       artifacts:
-        baseDirectory: '*'  # Make sure STATIC_ROOT matches this in settings.py
+        baseDirectory: productionfiles  # Make sure STATIC_ROOT matches this in settings.py
         files:
           - '**/*'
       cache:
@@ -34,7 +34,7 @@ applications:
           commands:
             - echo "No frontend specific build steps needed"
       artifacts:
-        baseDirectory: '*'  # Align with backend artifacts
+        baseDirectory: productionfiles  # Align with backend artifacts
         files:
           - '**/*'
       cache:
