@@ -5,7 +5,7 @@ applications:
       phases:
         preBuild:
           commands:
-            - echo "Setting up Docker environment..."
+            - echo "Building Docker image..."
             - docker build -t django-app .
         build:
           commands:
