@@ -5,14 +5,20 @@ applications:
       phases:
         preBuild:
           commands:
-            - echo "Building Docker image..."
-            - docker build -t django-app .
+            - echo "Setting up the environment and installing dependencies..."
+            - python -m venv venv
+            # Use cross-platform venv activation to handle different OS environments
+            - source ./venv/bin/activate || .\\venv\\Scripts\\activate
+            - pip install --upgrade pip
+            - pip install -r requirements.txt  # Ensure this path is correct
         build:
           commands:
-            - echo "Running Docker container..."
-            - docker run -d -p 80:80 django-app
+            - echo "Collecting static files..."
+            - python manage.py collectstatic --noinput
+            - echo "Running migrations..."
+            - python manage.py migrate
       artifacts:
-        baseDirectory: productionfiles  # Make sure STATIC_ROOT matches this in settings.py
+        baseDirectory: toi/templates/toi/  # Make sure STATIC_ROOT matches this in settings.py
         files:
           - '**/*'
       cache:
@@ -28,15 +34,9 @@ applications:
           commands:
             - echo "No frontend specific build steps needed"
       artifacts:
-        baseDirectory: productionfiles  # Align with backend artifacts
+        baseDirectory: toi/templates/toi/ # Align with backend artifacts
         files:
           - '**/*'
       cache:
         paths:
           - node_modules/**/*  # Cache node_modules if applicable
-
-    customHeaders:
-      - pattern: '**/*'
-        headers:
-          - key: "Cache-Control"
-            value: "no-cache"
