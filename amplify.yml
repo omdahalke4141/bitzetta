@@ -17,8 +17,16 @@ applications:
             - python manage.py collectstatic --noinput
             - echo "Running migrations..."
             - python manage.py migrate
+            - echo "Installing Nginx..."
+            - sudo apt-get update
+            - sudo apt-get install -y nginx
+            - echo "Configuring Nginx..."
+            - sudo rm /etc/nginx/sites-enabled/default
+            - sudo cp nginx.conf /etc/nginx/sites-available/django_app
+            - sudo ln -s /etc/nginx/sites-available/django_app /etc/nginx/sites-enabled
+            - sudo systemctl restart nginx
       artifacts:
-        baseDirectory: toi/templates/toi/  # Make sure STATIC_ROOT matches this in settings.py
+        baseDirectory: productionfiles  # Make sure STATIC_ROOT matches this in settings.py
         files:
           - '**/*'
       cache:
@@ -34,9 +42,15 @@ applications:
           commands:
             - echo "No frontend specific build steps needed"
       artifacts:
-        baseDirectory: toi/templates/toi/ # Align with backend artifacts
+        baseDirectory: productionfiles  # Align with backend artifacts
         files:
           - '**/*'
       cache:
         paths:
           - node_modules/**/*  # Cache node_modules if applicable
+
+    customHeaders:
+      - pattern: '**/*'
+        headers:
+          - key: "Cache-Control"
+            value: "no-cache"
