@@ -1,0 +1,49 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing system dependencies..."
+      - sudo apt-get update -y
+      - sudo apt-get install -y nginx python3-pip python3-venv
+
+      - echo "Setting up the Python environment..."
+      - python3 -m venv venv
+      - source ./venv/bin/activate || .\\venv\\Scripts\\activate
+      - pip install --upgrade pip
+      - pip install gunicorn
+      - pip install -r requirements.txt
+
+  pre_build:
+    commands:
+      - echo "No frontend specific pre-build steps needed"
+      
+  build:
+    commands:
+      - echo "Collecting static files..."
+      - python manage.py collectstatic --noinput
+      - echo "Running migrations..."
+      - python manage.py migrate
+
+  post_build:
+    commands:
+      - echo "Configuring Nginx..."
+      - sudo cp nginx/default /etc/nginx/sites-available/default
+      - sudo nginx -t  # Test Nginx configuration
+      - sudo systemctl restart nginx
+
+      - echo "Starting Gunicorn..."
+      - sudo cp gunicorn/gunicorn.service /etc/systemd/system/gunicorn.service
+      - sudo systemctl daemon-reload
+      - sudo systemctl start gunicorn
+      - sudo systemctl enable gunicorn
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: productionfiles  # Ensure STATIC_ROOT matches this in settings.py
+
+cache:
+  paths:
+    - ~/.cache/pip  # Cache pip downloads for faster builds
+    - node_modules/**/*  # Cache node_modules if applicable

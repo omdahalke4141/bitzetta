@@ -1,0 +1,12 @@
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=ubuntun
+Group=www-data
+WorkingDirectory=/var/www/html/bitzetta
+ExecStart=/var/www/html/bitzetta/venv/bin/gunicorn --workers 3 --bind unix:/var/www/html/bitzetta/bitzetta.sock bitzetta.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
