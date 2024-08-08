@@ -13,7 +13,7 @@ phases:
   pre_build:
     commands:
       - echo "Activating the virtual environment..."
-      - source ./venv/bin/activate
+      - source /venv/bin/activate
       - echo "Upgrading pip and installing dependencies..."
       - pip install --upgrade pip
       - pip install gunicorn
