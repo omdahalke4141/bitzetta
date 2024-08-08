@@ -11,9 +11,10 @@ phases:
       - python3 -m venv venv
 
   pre_build:
+    on-failure: CONTINUE
     commands:
       - echo "Activating the virtual environment..."
-      - bash -c source /venv/bin/activate 
+      - source /venv/bin/activate
       - echo "Upgrading pip and installing dependencies..."
       - pip install --upgrade pip
       - pip install gunicorn
