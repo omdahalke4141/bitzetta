@@ -4,7 +4,7 @@ phases:
   install:
     commands:
       - echo "Installing system dependencies..."
-      - sudo apt-get update -y
+      - sudo apt update
       - sudo apt-get install -y nginx python3-pip python3-venv
 
       - echo "Setting up the Python environment..."
