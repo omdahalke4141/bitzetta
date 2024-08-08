@@ -13,7 +13,15 @@ phases:
   pre_build:
     commands:
       - echo "Activating the virtual environment..."
-      - bash -c "if [ -f ./venv/bin/activate ]; then source ./venv/bin/activate; else if [ -f ./venv/Scripts/activate ]; then source ./venv/Scripts/activate; else echo 'Error: Virtual environment activation script not found!'; exit 1; fi; fi"
+      - |
+        if [ -f "./venv/bin/activate" ]; then
+          source ./venv/bin/activate
+        elif [ -f "./venv/Scripts/activate" ]; then
+          source ./venv/Scripts/activate
+        else
+          echo "Error: Virtual environment activation script not found!"
+          exit 1
+        fi
 
       - echo "Upgrading pip and installing dependencies..."
       - pip install --upgrade pip
