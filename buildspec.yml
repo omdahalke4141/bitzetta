@@ -13,16 +13,7 @@ phases:
   pre_build:
     commands:
       - echo "Activating the virtual environment..."
-      - |
-        if [ -f "./venv/bin/activate" ]; then
-          source ./venv/bin/activate
-        elif [ -f "./venv/Scripts/activate" ]; then
-          source ./venv/Scripts/activate
-        else
-          echo "Error: Virtual environment activation script not found!"
-          exit 1
-        fi
-
+      - source ./venv/bin/activate
       - echo "Upgrading pip and installing dependencies..."
       - pip install --upgrade pip
       - pip install gunicorn
