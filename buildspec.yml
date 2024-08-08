@@ -4,12 +4,21 @@ phases:
   install:
     commands:
       - echo "Installing system dependencies..."
-      - sudo apt update -y
+      - sudo apt-get update -y
       - sudo apt-get install -y nginx python3-pip python3-venv
 
       - echo "Setting up the Python environment..."
       - python3 -m venv venv
-      - source ./venv/bin/activate || .\\venv\\Scripts\\activate
+      - |
+        if [ -f "./venv/bin/activate" ]; then
+          source ./venv/bin/activate
+        elif [ -f "./venv/Scripts/activate" ]; then
+          source ./venv/Scripts/activate
+        else
+          echo "Error: Virtual environment activation script not found!"
+          exit 1
+        fi
+
       - pip install --upgrade pip
       - pip install gunicorn
       - pip install -r requirements.txt
