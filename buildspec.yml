@@ -9,6 +9,8 @@ phases:
 
       - echo "Setting up the Python environment..."
       - python3 -m venv venv
+
+      - echo "Activating the virtual environment..."
       - |
         if [ -f "./venv/bin/activate" ]; then
           source ./venv/bin/activate
@@ -19,6 +21,7 @@ phases:
           exit 1
         fi
 
+      - echo "Upgrading pip and installing dependencies..."
       - pip install --upgrade pip
       - pip install gunicorn
       - pip install -r requirements.txt
