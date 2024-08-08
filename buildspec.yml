@@ -10,26 +10,16 @@ phases:
       - echo "Setting up the Python environment..."
       - python3 -m venv venv
 
+  pre_build:
+    commands:
       - echo "Activating the virtual environment..."
-      - |
-        if [ -f "./venv/bin/activate" ]; then
-          source ./venv/bin/activate
-        elif [ -f "./venv/Scripts/activate" ]; then
-          source ./venv/Scripts/activate
-        else
-          echo "Error: Virtual environment activation script not found!"
-          exit 1
-        fi
+      - bash -c "if [ -f ./venv/bin/activate ]; then source ./venv/bin/activate; else if [ -f ./venv/Scripts/activate ]; then source ./venv/Scripts/activate; else echo 'Error: Virtual environment activation script not found!'; exit 1; fi; fi"
 
       - echo "Upgrading pip and installing dependencies..."
       - pip install --upgrade pip
       - pip install gunicorn
       - pip install -r requirements.txt
 
-  pre_build:
-    commands:
-      - echo "No frontend specific pre-build steps needed"
-      
   build:
     commands:
       - echo "Collecting static files..."
